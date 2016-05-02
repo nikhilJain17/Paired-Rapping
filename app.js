@@ -16,6 +16,9 @@ app.use(bodyParser.json());
 // });
 
 
+// word that appeared last that the user entered - will be rhymed with
+var lastword;
+
 // web hook to verify server is running
 app.get('/messager', function(req, res) {
  if (req.query['hub.verify_token'] === "nekot")
@@ -53,8 +56,16 @@ app.post('/messager', function(req, res) {
         if (event.message && event.message.text) {
             console.log("Echo: " + event.message.text);
 
+            var text = event.message.text.toString();
+
+            lastword = text.slice(text.lastIndexOf(" "), text.length);
+
+            if (text.lastIndexOf(" ") == -1) { // only one word
+            	lastword = text;
+            }
+
             // echo their message
-			sendTextMessage(event.sender.id, "Text received, echo: "+ event.message.text);
+			sendTextMessage(event.sender.id, "Last Word: " + lastword);
         }
     }
 

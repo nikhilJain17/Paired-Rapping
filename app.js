@@ -1,12 +1,22 @@
 var app = require("express")();
 var http = require("http").Server(app);
 // var io = require("socket.io")(http);
+var bodyParser = require('body-parser');
+
 
 var PORT = 8000;
 
+app.use(bodyParser.json());
+
+
+// app.configure(function(){
+  // app.use(express.bodyParser());
+  // app.use(app.router);
+// });
+
 
 // web hook to verify server is running
-app.get('/messages', function(req, res) {
+app.get('/messager', function(req, res) {
  if (req.query['hub.verify_token'] === "nekot")
   {
     res.send(req.query['hub.challenge']);
@@ -31,9 +41,20 @@ app.get('/', function(req, res) {
 
 
 // web hook to access messages
-app.post('/messages', function(req, res) {
+app.post('/messager', function(req, res) {
 
-	console.log(req);
+	// var messagesArray = req.body.entry[0].messaging;
+
+	// for (var i = 0; i < messagesArray.length; i++) {
+
+	//	var messageEvent = messagesArray[i];
+	//	var sender = messageEvent.sender.id;
+	//	var text = messageEvent.message.text;
+
+	// console.log(sender + ": " + text);
+	// }
+
+
 
 // var messaging_events = req.body.entry[0].messaging;
   
@@ -45,8 +66,24 @@ app.post('/messages', function(req, res) {
 //       console.log(text);
 // //       // Handle a text message from this sender
 //     }
-//   }
-  res.sendStatus(200);
+// //   }
+//     var events = req.body.entry[0].messaging;
+//     for (i = 0; i < events.length; i++) {
+//         var event = events[i];
+//         if (event.message && event.message.text) {
+//             sendMessage(event.sender.id, {text: "Echo: " + event.message.text});
+//         }
+//     }
+    res.sendStatus(200);
+    // console.log(req);
+
+    var events = req.body.entry[0].messaging;
+    for (i = 0; i < events.length; i++) {
+        var event = events[i];
+        if (event.message && event.message.text) {
+            console.log("Echo: " + event.message.text);
+        }
+    }
 
 });
 

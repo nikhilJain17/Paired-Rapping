@@ -72,7 +72,22 @@ app.post('/messager', function(req, res) {
 
 			getRhymes(lastword, function(rhymeResult) {
 
-				// get 
+				// get part of speech
+				getPartOfSpeech(rhymeResult, function(posResult) {
+
+					var pos = "";
+
+					// get part of speech
+					if (posResult.includes("/NN"))
+						pos = "noun";
+					else if (posResult.includes("/VBD"))
+						pos = "verb";
+					else if (posResult.includes("/JJ"))
+						pos = "adjective";
+
+					sendTextMessage(event.sender.id, pos);
+
+				});
 
 				sendTextMessage(event.sender.id, rhymeResult);
 
@@ -85,6 +100,39 @@ app.post('/messager', function(req, res) {
 });
 
 
+function getPartOfSpeech(word, callback) {
+// curl -d "text=California is nice" http://text-processing.com/api/tag/
+	var http = new XMLHttpRequest();
+
+	var url = "http://text-processing.com/api/tag/";
+	var params = "text=" + word;
+	http.open("POST", url, true);
+
+	// set headers
+	http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	http.setRequestHeader("Content-length", params.length);
+	http.setRequestHeader("Connection", "close");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	
+		if(http.readyState == 4 && http.status == 200) {
+			console.log(http.responseText);
+			var data = http.responseText;
+			var jsonResponse = JSON.parse(data);
+
+			if (jsonResponse.length != 0) {
+				console.log(jsonResponse.text);
+				callback(jsonResponse.text);
+			}
+
+		}
+	}
+
+	http.send(params);
+
+}
+
+
 // get rhymes
 function getRhymes(word, callback){
 
@@ -95,7 +143,8 @@ function getRhymes(word, callback){
 			var data = xmlHttp.responseText;
 			var jsonResponse = JSON.parse(data); // array with all of response
 			
-			console.log(jsonResponse);
+			// console.log(jsonResponse);
+			// console.log(jsonResponse);
 
 			// if something to parse
 			if (jsonResponse.length != 0) {

@@ -67,10 +67,17 @@ app.post('/messager', function(req, res) {
             }
 
             // echo their message
-			sendTextMessage(event.sender.id, "Last Word: " + lastword);
-			getRhymes(lastword);
-			   // var response;
-		
+			// var rhyme = getRhymes(lastword);
+			// console.log("Rhyme: " + rhyme);
+
+			getRhymes(lastword, function(rhymeResult) {
+
+				// get 
+
+				sendTextMessage(event.sender.id, rhymeResult);
+
+			});
+			
 
         }
     }
@@ -79,15 +86,17 @@ app.post('/messager', function(req, res) {
 
 
 // get rhymes
-function getRhymes(word){
+function getRhymes(word, callback){
 
 	// http://rhymebrain.com/talk?function=getRhymes&word=hello
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
 			var data = xmlHttp.responseText;
-			var jsonResponse = JSON.parse(data);
+			var jsonResponse = JSON.parse(data); // array with all of response
 			console.log(jsonResponse[0].word);
+
+			callback(jsonResponse[0].word); // send rhymed word to user
 		}
 	}
 
@@ -100,8 +109,8 @@ function getRhymes(word){
 
 
 
-var token = "EAAYV5d1agD4BALZBtvZBmmn6pmS95ZA6JEVxe5nBgYaWQPwXXbAUy1wioZBcO7HoIE5ZCjYvZCxOx270Y0gxA7MqsrriZAb2Abe3uncQXYJbv7zEpdqujZCaZAAQ1pQZAmpqrfjOVbyIKcZARqgAEEOttPQKiPZB8D2DBhxrr7GcioE7AwZDZD";
-
+var token = "";
+// send message back to user
 function sendTextMessage(sender, text) {
   messageData = {
     text:text
@@ -124,7 +133,7 @@ function sendTextMessage(sender, text) {
 }
 
 
-
+// start server
 http.listen(PORT, function() {
 	console.log('Listening on ' + PORT);
 });

@@ -3,6 +3,8 @@ var http = require("http").Server(app);
 // var io = require("socket.io")(http);
 var bodyParser = require('body-parser');
 var request = require('request');
+var pos = require('node-pos').partsOfSpeech; // part of speech
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
 var PORT = 8000;
@@ -66,10 +68,37 @@ app.post('/messager', function(req, res) {
 
             // echo their message
 			sendTextMessage(event.sender.id, "Last Word: " + lastword);
+			getRhymes(lastword);
+			   // var response;
+		
+
         }
     }
 
 });
+
+
+// get rhymes
+function getRhymes(word){
+
+	// http://rhymebrain.com/talk?function=getRhymes&word=hello
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+			var data = xmlHttp.responseText;
+			var jsonResponse = JSON.parse(data);
+			console.log(jsonResponse[0].word);
+		}
+	}
+
+	var url = "http://rhymebrain.com/talk?function=getRhymes&word=" + word;
+    xmlHttp.open("GET", url, true); // true for asynchronous 
+    xmlHttp.send(null);
+
+}
+
+
+
 
 var token = "EAAYV5d1agD4BALZBtvZBmmn6pmS95ZA6JEVxe5nBgYaWQPwXXbAUy1wioZBcO7HoIE5ZCjYvZCxOx270Y0gxA7MqsrriZAb2Abe3uncQXYJbv7zEpdqujZCaZAAQ1pQZAmpqrfjOVbyIKcZARqgAEEOttPQKiPZB8D2DBhxrr7GcioE7AwZDZD";
 

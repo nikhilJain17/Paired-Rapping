@@ -94,9 +94,11 @@ function getRhymes(word, callback){
 		if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
 			var data = xmlHttp.responseText;
 			var jsonResponse = JSON.parse(data); // array with all of response
-			console.log(jsonResponse[0].word);
-
-			callback(jsonResponse[0].word); // send rhymed word to user
+			
+			if (jsonResponse[0].word != null) {}
+				console.log(jsonResponse[0].word);
+				callback(jsonResponse[0].word); // send rhymed word to user
+			}
 		}
 	}
 
@@ -109,7 +111,8 @@ function getRhymes(word, callback){
 
 
 
-var token = "";
+
+var token = "EAAYV5d1agD4BALZBtvZBmmn6pmS95ZA6JEVxe5nBgYaWQPwXXbAUy1wioZBcO7HoIE5ZCjYvZCxOx270Y0gxA7MqsrriZAb2Abe3uncQXYJbv7zEpdqujZCaZAAQ1pQZAmpqrfjOVbyIKcZARqgAEEOttPQKiPZB8D2DBhxrr7GcioE7AwZDZD";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {

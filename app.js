@@ -95,7 +95,10 @@ function getRhymes(word, callback){
 			var data = xmlHttp.responseText;
 			var jsonResponse = JSON.parse(data); // array with all of response
 			
-			if (jsonResponse[0].word != null) {}
+			console.log(jsonResponse);
+
+			// if something to parse
+			if (jsonResponse.length != 0) {
 				console.log(jsonResponse[0].word);
 				callback(jsonResponse[0].word); // send rhymed word to user
 			}

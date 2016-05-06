@@ -1,0 +1,6 @@
+{
+    "name": "Whats-Up-Dawg",
+    "description": "Rap along with a bot using Facebook Messenger",
+    "repository": "https://github.com/nikhilJain17/WHATS-UP-DAWG",
+    "image": "heroku/nodejs"
+}

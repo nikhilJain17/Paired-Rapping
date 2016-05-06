@@ -8,7 +8,7 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var lyr = require('lyrics-fetcher');
 
 
-var PORT = 8000;
+var PORT = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
 

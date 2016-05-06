@@ -94,14 +94,15 @@ app.post('/messager', function(req, res) {
 					// @Todo randomize which song to use
 					
 					var lastWordOfSentence;
-					// do {
+					do {
 						lyr.fetch('drake', 'headlines', function(err, lyrics) {
 							// randomly pick a line in the song
 							var linesArr = lyrics.split('\n');
-							var sentence = linesArr[Math.random() * linesArr.length];
-							// console.log(linesArr);
+							var sentence = linesArr[Math.floor(Math.random() * linesArr.length)];
+							
 							console.log(sentence);
-						});
+						
+					});
 					// } while ()
 
 				});
@@ -182,7 +183,7 @@ function getRhymes(word, callback){
 
 
 
-var token = "EAAYV5d1agD4BAKB4QIdcbEsZB5NH8PalvxjhFe1CktuMwZCGY9zUiEfYHVnW3rbZCh8jXZAqvDhJGOkSukpCFvZApeukFQOfI24F7lQLnpxOgEg1byRP6XAuYNuvAgci30UuZBsrZA935aKbJoskPoA4DrQZCOsTLA2XGQ3lgoRaIwZDZD";
+var token = "";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {

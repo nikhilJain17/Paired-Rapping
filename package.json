@@ -1,0 +1,32 @@
+{
+    "name": "whats-up-dawg",
+    "version": "1.0.0",
+    "description": "Rap with Facebook messenger!",
+    "main": "app.js",
+    "dependencies": {
+        "xmlhttprequest": "^1.8.0",
+        "lyrics-fetcher": "^1.0.1",
+        "node-pos": "^0.0.4",
+        "request": "^2.67.0",
+        "body-parser": "^1.15.0",
+        "http": "*",
+        "express": "^4.13.3"
+    },
+    "engines" : {
+      "node": "4.1.2"  
+    },
+    "repository": {
+        "type": "git",
+        "url":"https://github.com/nikhilJain17/WHATS-UP-DAWG"
+    },
+    "keywords": [
+        "node",
+        "express",
+        "facebook messenger",
+        "rap",
+        "messenger"
+    ],
+    "author": "Nikhil Jain",
+    "license": "MIT"
+    
+}

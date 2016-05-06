@@ -99,8 +99,28 @@ app.post('/messager', function(req, res) {
 					var lastWordOfSentence;
 					var lastWordPOS = "";
 					// do {
-						var songarr = []
-						lyr.fetch('drake', 'headlines', function(err, lyrics) {
+						var songarr = [
+							{artist:"drake", song:"headlines"}];
+							// {artist:"drake", song:"forever"}, 
+							// {artist:"drake", song:"marvin's room"}, 
+							// {artist:"drake", song:"started from the bottom"}, 
+							// {artist:"kid cudi", song:"mr rager"}, 
+							// {artist:"kid cudi", song:"erase me"}, 
+							// {artist:"kid cudi", song:"day n nite"}, 
+							// {artist:"kid cudi", song:"solo dolo"}, 
+							// // {artist:"kanye", song:"gold digger"}, 
+							// {artist:"kanye", song:"stronger"}, 
+							// {artist:"kanye", song:"run this town"}, 
+							// {artist:"jay-z", song:"young forever"}];
+							
+							var i = Math.floor(Math.random() * songarr.length);
+							
+							var artist = songarr[i].artist;
+    					var song = songarr[i].song;
+
+							console.log("Fetching: " + song + " by: " + artist);
+							
+						lyr.fetch(artist, song, function(err, lyrics) {
 							// randomly pick a line in the song
 							var linesArr = lyrics.split('\n');
 							var sentence = linesArr[Math.floor(Math.random() * linesArr.length)];
@@ -231,8 +251,11 @@ function getRhymes(word, callback){
 
 			// if something to parse
 			if (jsonResponse.length != 0) {
-				console.log(jsonResponse[1].word);
-				callback(jsonResponse[1].word); // send rhymed word to user
+				
+				var index = Math.floor(Math.random() * jsonResponse.length);
+				
+				console.log(jsonResponse[index].word);
+				callback(jsonResponse[index].word); // send rhymed word to user
 			}
 		}
 	}
@@ -247,7 +270,7 @@ function getRhymes(word, callback){
 
 
 
-var token = "";
+var token = "EAAYV5d1agD4BAKB4QIdcbEsZB5NH8PalvxjhFe1CktuMwZCGY9zUiEfYHVnW3rbZCh8jXZAqvDhJGOkSukpCFvZApeukFQOfI24F7lQLnpxOgEg1byRP6XAuYNuvAgci30UuZBsrZA935aKbJoskPoA4DrQZCOsTLA2XGQ3lgoRaIwZDZD";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {

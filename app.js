@@ -54,10 +54,13 @@ app.post('/messager', function(req, res) {
     // console.log(req);
 
     var events = req.body.entry[0].messaging;
+		
     for (i = 0; i < events.length; i++) {
         var event = events[i];
-        if (event.message && event.message.text) {
-            console.log("Echo: " + event.message.text);
+        
+				if (event.message && event.message.text) {
+            
+						console.log("Echo: " + event.message.text);
 
             var text = event.message.text.toString();
 
@@ -87,38 +90,99 @@ app.post('/messager', function(req, res) {
 						pos = "adjective";
 						
 					// @Todo Get rid of this
-					sendTextMessage(event.sender.id, pos);
+					// sendTextMessage(event.sender.id, pos);
 
 					// request a sentence from lyrics-fetcher
 					// keep requesting until the last word has the same part of speech
 					// @Todo randomize which song to use
 					
 					var lastWordOfSentence;
-					do {
+					var lastWordPOS = "";
+					// do {
+						var songarr = []
 						lyr.fetch('drake', 'headlines', function(err, lyrics) {
 							// randomly pick a line in the song
 							var linesArr = lyrics.split('\n');
 							var sentence = linesArr[Math.floor(Math.random() * linesArr.length)];
 							
 							console.log(sentence);
+							
+							// get last word in sentence
+							lastWordOfSentence = sentence.substring(sentence.lastIndexOf(" ") + 1);
+							console.log(lastWordOfSentence);
+							
+							// check part of speech -- TODO get rid of this nested callback nonsense
+							
+							sendTextMessage(event.sender.id, sentence.substring(0, sentence.lastIndexOf(" ")) + " " + rhymeResult);
+							
+							// getPartOfSpeech(lastWordOfSentence, function (posResult){
+							// 		// get part of speech
+									
+							// 	if (posResult.includes("/NN"))
+							// 		lastWordPOS = "noun";
+							// 	else if (posResult.includes("/VBD"))
+							// 		lastWordPOS = "verb";
+							// 	else if (posResult.includes("/JJ"))
+							// 		lastWordPOS = "adjective";
+									
+							// 		console.log(lastWordPOS + "beans");		
+							// });
+							
+							
+						});
 						
-					});
+						// console.log(lastWordPOS + "carrot");
+					// });
 					// } while ()
 
 				});
 
 				// @Todo Get rid of this boi
-				sendTextMessage(event.sender.id, rhymeResult);
+				// sendTextMessage(event.sender.id, rhymeResult);
 
 			});
 			
 
-        }
+        };
     }
-
+		
+		
 });
 
 
+function returnPartOfSpeech(word) {
+// curl -d "text=California is nice" http://text-processing.com/api/tag/
+	var http = new XMLHttpRequest();
+
+	var url = "http://text-processing.com/api/tag/";
+	var params = "text=" + word;
+	http.open("POST", url, true);
+
+	// set headers
+	http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	http.setRequestHeader("Content-length", params.length);
+	http.setRequestHeader("Connection", "close");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	
+		if(http.readyState == 4 && http.status == 200) {
+			console.log(http.responseText);
+			var data = http.responseText;
+			var jsonResponse = JSON.parse(data);
+
+			if (jsonResponse.length != 0) {
+				console.log(jsonResponse.text);
+				return jsonResponse.text;
+			}
+
+		}
+	}
+
+	http.send(params);
+
+}
+
+// @TODO delete this function entirely
 function getPartOfSpeech(word, callback) {
 // curl -d "text=California is nice" http://text-processing.com/api/tag/
 	var http = new XMLHttpRequest();
@@ -167,8 +231,8 @@ function getRhymes(word, callback){
 
 			// if something to parse
 			if (jsonResponse.length != 0) {
-				console.log(jsonResponse[0].word);
-				callback(jsonResponse[0].word); // send rhymed word to user
+				console.log(jsonResponse[1].word);
+				callback(jsonResponse[1].word); // send rhymed word to user
 			}
 		}
 	}

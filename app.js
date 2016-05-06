@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var pos = require('node-pos').partsOfSpeech; // part of speech
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var lyr = require('lyrics-fetcher');
 
 
 var PORT = 8000;
@@ -84,11 +85,28 @@ app.post('/messager', function(req, res) {
 						pos = "verb";
 					else if (posResult.includes("/JJ"))
 						pos = "adjective";
-
+						
+					// @Todo Get rid of this
 					sendTextMessage(event.sender.id, pos);
+
+					// request a sentence from lyrics-fetcher
+					// keep requesting until the last word has the same part of speech
+					// @Todo randomize which song to use
+					
+					var lastWordOfSentence;
+					// do {
+						lyr.fetch('drake', 'headlines', function(err, lyrics) {
+							// randomly pick a line in the song
+							var linesArr = lyrics.split('\n');
+							var sentence = linesArr[Math.random() * linesArr.length];
+							// console.log(linesArr);
+							console.log(sentence);
+						});
+					// } while ()
 
 				});
 
+				// @Todo Get rid of this boi
 				sendTextMessage(event.sender.id, rhymeResult);
 
 			});
@@ -164,7 +182,7 @@ function getRhymes(word, callback){
 
 
 
-var token = "EAAYV5d1agD4BALZBtvZBmmn6pmS95ZA6JEVxe5nBgYaWQPwXXbAUy1wioZBcO7HoIE5ZCjYvZCxOx270Y0gxA7MqsrriZAb2Abe3uncQXYJbv7zEpdqujZCaZAAQ1pQZAmpqrfjOVbyIKcZARqgAEEOttPQKiPZB8D2DBhxrr7GcioE7AwZDZD";
+var token = "EAAYV5d1agD4BAKB4QIdcbEsZB5NH8PalvxjhFe1CktuMwZCGY9zUiEfYHVnW3rbZCh8jXZAqvDhJGOkSukpCFvZApeukFQOfI24F7lQLnpxOgEg1byRP6XAuYNuvAgci30UuZBsrZA935aKbJoskPoA4DrQZCOsTLA2XGQ3lgoRaIwZDZD";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {

@@ -108,11 +108,11 @@ app.post('/messager', function(req, res) {
 							{artist:"eminem", song:"mockingbird"}, 
 							{artist:"kid cudi", song:"day n nite"}, 
 							{artist:"kid cudi", song:"cleveland is the reason"}, 
-							{artist:"kendrick lamar", song:"poetic justice"}];
-							// {artist:"kid cudi", song:"solo dolo"}, 
-							// // {artist:"kanye", song:"gold digger"}, 
-							// {artist:"kanye", song:"stronger"}, 
-							// {artist:"kanye", song:"run this town"}, 
+							{artist:"kendrick lamar", song:"poetic justice"}
+							{artist:"kanye", song:"heartless"}, 
+							{artist:"macklemore", song:"thrift shop"}, 
+							{artist:"eminem", song:"rap god"}, 
+							{artist:"desiigner", song:"panda"}]; 
 							// {artist:"jay-z", song:"young forever"}];
 							
 							var i = Math.floor(Math.random() * songarr.length);

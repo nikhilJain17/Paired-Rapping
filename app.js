@@ -102,13 +102,13 @@ app.post('/messager', function(req, res) {
 					// var lastWordPOS = "";
 					// do {
 						var songarr = [
-							{artist:"drake", song:"headlines"}];
-							// {artist:"drake", song:"forever"}, 
-							// {artist:"drake", song:"marvin's room"}, 
-							// {artist:"drake", song:"started from the bottom"}, 
-							// {artist:"kid cudi", song:"mr rager"}, 
-							// {artist:"kid cudi", song:"erase me"}, 
-							// {artist:"kid cudi", song:"day n nite"}, 
+							{artist:"drake", song:"headlines"},
+							{artist:"drake", song:"hotline bling"}, 
+							{artist:"drake", song:"energy"}, 
+							{artist:"eminem", song:"mockingbird"}, 
+							{artist:"kid cudi", song:"day n nite"}, 
+							{artist:"kid cudi", song:"cleveland is the reason"}, 
+							{artist:"kendrick lamar", song:"poetic justice"}];
 							// {artist:"kid cudi", song:"solo dolo"}, 
 							// // {artist:"kanye", song:"gold digger"}, 
 							// {artist:"kanye", song:"stronger"}, 
@@ -125,7 +125,11 @@ app.post('/messager', function(req, res) {
 							lyr.fetch(artist, song, function(err, lyrics) {
 								// randomly pick a line in the song
 								var linesArr = lyrics.split('\n');
-								var sentence = linesArr[Math.floor(Math.random() * linesArr.length)];
+								var sentence;
+								
+								do {
+									sentence = linesArr[Math.floor(Math.random() * linesArr.length)];
+								} while (sentence.length < 5); // no more 1 word nonsense
 								
 								console.log("Line: " + sentence);
 								
@@ -279,7 +283,7 @@ function getRhymes(word, callback){
 
 
 
-var token = "EAAYV5d1agD4BAKB4QIdcbEsZB5NH8PalvxjhFe1CktuMwZCGY9zUiEfYHVnW3rbZCh8jXZAqvDhJGOkSukpCFvZApeukFQOfI24F7lQLnpxOgEg1byRP6XAuYNuvAgci30UuZBsrZA935aKbJoskPoA4DrQZCOsTLA2XGQ3lgoRaIwZDZD";
+var token = "";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {

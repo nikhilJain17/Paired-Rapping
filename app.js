@@ -120,42 +120,40 @@ app.post('/messager', function(req, res) {
 
 							console.log("Fetching: " + song + " by: " + artist);
 							
-						lyr.fetch(artist, song, function(err, lyrics) {
-							// randomly pick a line in the song
-							var linesArr = lyrics.split('\n');
-							var sentence = linesArr[Math.floor(Math.random() * linesArr.length)];
-							
-							console.log(sentence);
-							
-							// get last word in sentence
-							lastWordOfSentence = sentence.substring(sentence.lastIndexOf(" ") + 1);
-							console.log(lastWordOfSentence);
-							
-							// check part of speech -- TODO get rid of this nested callback nonsense
-							
-							sendTextMessage(event.sender.id, sentence.substring(0, sentence.lastIndexOf(" ")) + " " + rhymeResult);
-							
-							// getPartOfSpeech(lastWordOfSentence, function (posResult){
-							// 		// get part of speech
+							lyr.fetch(artist, song, function(err, lyrics) {
+								// randomly pick a line in the song
+								var linesArr = lyrics.split('\n');
+								var sentence = linesArr[Math.floor(Math.random() * linesArr.length)];
+								
+								console.log(sentence);
+								
+								// get last word in sentence
+								lastWordOfSentence = sentence.substring(sentence.lastIndexOf(" ") + 1);
+								console.log(lastWordOfSentence);
+								
+								// check part of speech -- TODO get rid of this nested callback nonsense
+								
+								// do {							
+									getPartOfSpeech(lastWordOfSentence, function (posResult){
+											// get part of speech
+											
+										if (posResult.includes("/NN"))
+											lastWordPOS = "noun";
+										else if (posResult.includes("/VBD"))
+											lastWordPOS = "verb";
+										else if (posResult.includes("/JJ"))
+											lastWordPOS = "adjective";
+											
+											console.log(lastWordPOS + "\\" + pos);
+											// console.log(lastWordPOS != pos);		
+									});
+								
 									
-							// 	if (posResult.includes("/NN"))
-							// 		lastWordPOS = "noun";
-							// 	else if (posResult.includes("/VBD"))
-							// 		lastWordPOS = "verb";
-							// 	else if (posResult.includes("/JJ"))
-							// 		lastWordPOS = "adjective";
-									
-							// 		console.log(lastWordPOS + "beans");		
-							// });
+								// } while(lastWordPOS != pos);
 							
-							
-						});
-						
-						// console.log(lastWordPOS + "carrot");
-					// });
-					// } while ()
-
-				});
+								sendTextMessage(event.sender.id, sentence.substring(0, sentence.lastIndexOf(" ")) + " " + rhymeResult);
+					
+					});
 
 				// @Todo Get rid of this boi
 				// sendTextMessage(event.sender.id, rhymeResult);
@@ -163,10 +161,11 @@ app.post('/messager', function(req, res) {
 			});
 			
 
-        };
+		});
     }
 		
 		
+	}
 });
 
 
@@ -252,7 +251,7 @@ function getRhymes(word, callback){
 			// if something to parse
 			if (jsonResponse.length != 0) {
 				
-				var index = Math.floor(Math.random() * jsonResponse.length);
+				var index = Math.floor(Math.random() * jsonResponse.length * 0.5);
 				
 				console.log(jsonResponse[index].word);
 				callback(jsonResponse[index].word); // send rhymed word to user
@@ -270,7 +269,7 @@ function getRhymes(word, callback){
 
 
 
-var token = "EAAYV5d1agD4BAKB4QIdcbEsZB5NH8PalvxjhFe1CktuMwZCGY9zUiEfYHVnW3rbZCh8jXZAqvDhJGOkSukpCFvZApeukFQOfI24F7lQLnpxOgEg1byRP6XAuYNuvAgci30UuZBsrZA935aKbJoskPoA4DrQZCOsTLA2XGQ3lgoRaIwZDZD";
+var token = "";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {

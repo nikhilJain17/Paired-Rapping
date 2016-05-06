@@ -37,13 +37,13 @@ app.get('/messager', function(req, res) {
 });
 
 app.post('/', function(req, res) {
-	console.log(req);
-	res.send('ack');
+	res.sendStatus(200);
 });
 
 
 app.get('/', function(req, res) {
-	console.log(req);
+	res.sendStatus(200);
+	// console.log(req);
 });
 
 
@@ -283,7 +283,7 @@ function getRhymes(word, callback){
 
 
 
-var token = "EAAYV5d1agD4BAKB4QIdcbEsZB5NH8PalvxjhFe1CktuMwZCGY9zUiEfYHVnW3rbZCh8jXZAqvDhJGOkSukpCFvZApeukFQOfI24F7lQLnpxOgEg1byRP6XAuYNuvAgci30UuZBsrZA935aKbJoskPoA4DrQZCOsTLA2XGQ3lgoRaIwZDZD";
+var token = "";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {

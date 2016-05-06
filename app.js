@@ -77,7 +77,7 @@ app.post('/messager', function(req, res) {
 			var pos = "";
 			var lastWordPOS = "";
 
-			// do
+			do {
 			getRhymes(lastword, function(rhymeResult) {
 
 				// get part of speech
@@ -165,6 +165,9 @@ app.post('/messager', function(req, res) {
 			
 
 		});
+		
+			} while (pos != lastWordPOS);
+		
     }
 		
 		
@@ -276,7 +279,7 @@ function getRhymes(word, callback){
 
 
 
-var token = "";
+var token = "EAAYV5d1agD4BAKB4QIdcbEsZB5NH8PalvxjhFe1CktuMwZCGY9zUiEfYHVnW3rbZCh8jXZAqvDhJGOkSukpCFvZApeukFQOfI24F7lQLnpxOgEg1byRP6XAuYNuvAgci30UuZBsrZA935aKbJoskPoA4DrQZCOsTLA2XGQ3lgoRaIwZDZD";
 // send message back to user
 function sendTextMessage(sender, text) {
   messageData = {
